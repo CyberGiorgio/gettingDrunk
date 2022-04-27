@@ -20,12 +20,12 @@
             </div>
             <div class="formContainer">
                <form method = "post">
-                  <label class="text">Username  :</label><input type = "text" id ="email" name="username" class="box"  size="15" required="" /><br />
+                  <label class="text">Username  :</label><input type = "text" id ="user" name="username" class="box"  size="15" required="" /><br />
                   <label class="text">Password  :</label><input type = "password" name = "password" class="box" size="15" required="" /><br/>
-                  <input type="submit" name="login" onclick ="sessionStored();" value="Log in"/><br />
+                  <input type="submit" name="login" onclick ="sessionStored();" value="Log in"/><br /> <!-- store session every time the button is clicked if user is verified -->
                   <button type="button" onclick="hide('boxLogin'), show('boxRegister');"> Register </button>
                </form>
-            <div class="textError"><?php echo $error; ?></div>
+            <div class="textError"><?php echo $error; ?></div>   <!-- error message -->
          </div>
       </div>
    </div>
@@ -42,10 +42,10 @@
                   <label class="text">Surname  :</label><br><input type = "text" name = "surname" class="box" size="15" required="" /><br/>
                   <label class="text">Password  :</label><input type = "password" name = "password" class="box" size="15" required="" /><br/>
                   <label class="text">Email  :</label><br><input type = "email" name = "email" class="box" size="15" required="" /><br/>
-                  <input type="submit" name="register" value="Register"/><br />
+                  <input type="submit" name="register" value="Register"/><br />  <!-- hide the other container -->
                   <button type="button" onclick="hide('boxRegister'), show('boxLogin'), hideError('textError');"> Back to Log in </button>
                </form>
-               <div class="textError"><?php echo $error; ?></div>
+               <div class="textError"><?php echo $error; ?></div>    <!-- error message -->
             </div>
          </div>
       </div>

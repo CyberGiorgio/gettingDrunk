@@ -10,31 +10,23 @@
       <link rel="shortcut icon" href="#">
       <link rel="stylesheet" href="css/style.css">
       <script type="text/javascript" src="js/js.js"></script> 
-      <script type="text/javascript">
-         function hide(id){
-             document.getElementById(id).style.display = 'none';
-         }
-         function show(id){
-             document.getElementById(id).style.display = 'block';
-         }
-      </script>
    </head>
    <body>
       <?php 
-         $usernameSession = $_SESSION['login_user'];
+         $usernameSession = $_SESSION['login_user'];        //session checker
          $query = "SELECT username FROM user WHERE username = '$usernameSession'";
          $result = mysqli_stmt_get_result($query);
          $result = mysqli_query($db, $query);
          if(mysqli_num_rows($result) > 0){ 
             while ($row = $result->fetch_assoc()) {
-            $username = ucfirst($row['username']);
+            $username = ucfirst($row['username']);    //first letter uppercase
             }
             echo "<div id='welcome'>
-                     <p>Welcome $username </p>
-                  </div>" ;
+                     <p>Welcome $username </p>     
+                  </div>" ;         //show username
                   $query = "SELECT * FROM drinks WHERE date=CURRENT_DATE AND username = '$usernameSession'";
                   $result = mysqli_query($db, $query);
-                     if (mysqli_num_rows($result) == 0) 
+                     if (mysqli_num_rows($result) == 0)     //if no record exist yet today
                         {
                            $query="INSERT INTO `drinks` (`idDrinks`, `cocktail`, `shot`, `beer`, `wine`, `date`, `username`, `points`) VALUES (NULL, '0', '0', '0', '0', CURRENT_DATE, '$usernameSession', '0')";
                            $result = mysqli_query($db, $query);
@@ -43,10 +35,11 @@
                         } ?>
          <div align="center">
             <div>
-               <button onclick="hide('recordsTable'), hide('rulesTable'), show('drinksTable');">Home</button> <button onclick="show('recordsTable'), hide('rulesTable'), hide('drinksTable');">Records</button> <button onclick="hide('recordsTable'), hide('drinksTable'), show('rulesTable')">Rules</button>
+               <button onclick="hide('recordsTable'), hide('rulesTable'), show('drinksTable');">Home</button> <button onclick="show('recordsTable'), hide('rulesTable'), hide('drinksTable');">Records</button> <button onclick="hide('recordsTable'), hide('drinksTable'), show('rulesTable')">Rules</button> <!-- hide the other containers depending on the button clicked-->
             </div>
          </div>
-         <div id="drinksTable">            
+
+         <div id="drinksTable">               <!-- table 1 home -->
             <table class="container" align="center" >
                 <?php
                      while($row = mysqli_fetch_assoc($result)) 
@@ -111,53 +104,52 @@
                   </div>
                </form>
              <?php 
-            
          } 
       ?>
             </table>
          </div>
-     
+                                     <!-- table 2 records -->
      <div id="recordsTable"  align="center"  style="display: none;"> 
-     <table width="40%" class="container" >
-         <tr>
-           <th><label>Date</label></th>
-           <th><label>Cocktails</label></th>
-           <th><label>Shots</label></th>
-           <th><label>Beers</label></th>
-           <th><label>Wine</label></th>
-           <th><label>Points</label></th>
-        </tr>
-         <?php
-          $query = "SELECT * FROM drinks WHERE username = '$usernameSession'";
-          $result = mysqli_query($db, $query);
-          if (mysqli_num_rows($result) > 0) 
-             {
-               while($row = mysqli_fetch_assoc($result)) 
-             {
-         ?>
-         <form method="post">
-          <tr>
-            <td class="item" ><p id="textDate"><?php echo $row['date'] ?> </p></td>
-            <td class="item" ><p id="textCocktail"><?php echo $row['cocktail'] ?> </p></td>
-            <td class="item" ><p id="textShot"><?php echo $row['shot'] ?> </p></td>
-            <td class="item" ><p id="textBeer"><?php echo $row['beer'] ?> </p></td>
-            <td class="item" ><p id="textWine"><?php echo $row['wine'] ?> </p></td>
-            <td class="item" ><p id="textPoints"><?php echo $row['points'] ?> </p></td>
-            <td class="item">
-               <input type="hidden" name="idDrinks" value="<?php echo $row['idDrinks'] ?>" >
-               <input name="removeRecord" type="submit" value="Remove" >
-            </td>
-         </tr>
-      </form>
-  
-            <?php 
+        <table width="40%" class="container" >
+            <tr>
+              <th><label>Date</label></th>
+              <th><label>Cocktails</label></th>
+              <th><label>Shots</label></th>
+              <th><label>Beers</label></th>
+              <th><label>Wine</label></th>
+              <th><label>Points</label></th>
+           </tr>
+            <?php
+             $query = "SELECT * FROM drinks WHERE username = '$usernameSession'";   //show all the drinks history
+             $result = mysqli_query($db, $query);
+             if (mysqli_num_rows($result) > 0) 
+                {
+                  while($row = mysqli_fetch_assoc($result)) 
+                {
+            ?>
+            <form method="post">
+                <tr>
+                  <td class="item" ><p id="textDate"><?php echo $row['date'] ?> </p></td>
+                  <td class="item" ><p id="textCocktail"><?php echo $row['cocktail'] ?> </p></td>
+                  <td class="item" ><p id="textShot"><?php echo $row['shot'] ?> </p></td>
+                  <td class="item" ><p id="textBeer"><?php echo $row['beer'] ?> </p></td>
+                  <td class="item" ><p id="textWine"><?php echo $row['wine'] ?> </p></td>
+                  <td class="item" ><p id="textPoints"><?php echo $row['points'] ?> </p></td>
+                  <td class="item">
+                     <input type="hidden" name="idDrinks" value="<?php echo $row['idDrinks'] ?>" >
+                     <input name="removeRecord" type="submit" value="Remove" >
+                  </td>
+               </tr>
+            </form>
+               <?php 
+               }
+            } else {
+               echo "No records yet, start drinking!";
             }
-         } else {
-            echo "No records yet, start drinking!";
-         }
-      };?>
+         };?>
          </table >
       </div>      
+                                        <!-- table 3 rules -->
       <div id="rulesTable"  align="center"  style="display: none;"> 
          <div><p>Rules</p></div>
          <table width="20%" class="container" >

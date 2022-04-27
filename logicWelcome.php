@@ -9,7 +9,7 @@
    $points = mysqli_real_escape_string($db,$_POST['points']);
    $date = mysqli_real_escape_string($db,$_POST['date']);
    $usernameSession = $_SESSION['login_user'];
-
+                                                   //calculate how many points left
    $query = "SELECT * FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
    $result = mysqli_query($db, $query);
    if (mysqli_num_rows($result) > 0) 
@@ -19,7 +19,7 @@
       $pointsLeft = $row['points'] - ($row['cocktail'] + $row['shot'] + $row['beer'] +$row['wine']);
       }
    }
-
+                           //if add cocktail
    if(isset($_POST['addCocktail'])){      
       $query = "SELECT cocktail FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -38,7 +38,7 @@
             }
          }
       }
-   }
+   }                           //if remove cocktail
    if(isset($_POST['removeCocktail'])){      
       $query = "SELECT cocktail FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -54,7 +54,7 @@
             }
          }
       }
-   }
+   }                        //if add shot
    if(isset($_POST['addShot'])){      
       $query = "SELECT shot FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -73,7 +73,7 @@
             }
          }
       }
-   }
+   }                        //if remove shot
    if(isset($_POST['removeShot'])){      
       $query = "SELECT shot FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -89,7 +89,7 @@
             }
          }
       }
-   }
+   }                           //if add beer
    if(isset($_POST['addBeer'])){      
       $query = "SELECT beer FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -108,7 +108,7 @@
             }
          }
       }
-   }
+   }                        //if remove beer
    if(isset($_POST['removeBeer'])){      
       $query = "SELECT beer FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -124,7 +124,7 @@
             }
          }
       }
-   }
+   }                        //if add wine
    if(isset($_POST['addWine'])){      
       $query = "SELECT wine FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -143,7 +143,7 @@
             }
          }
       }
-   }
+   }                     //if remove wine
    if(isset($_POST['removeWine'])){      
       $query = "SELECT wine FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -159,7 +159,7 @@
             }
          }
       }
-   }
+   }                     //set max points
    if(isset($_POST['buttonPoints'])){
       $query = "SELECT points FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
@@ -173,7 +173,7 @@
             $result = mysqli_query($db,$sql);
          }
       }
-   }
+   }                    //remove records stored 
    if(isset($_POST['removeRecord'])){      
       $query = "DELETE FROM `drinks` WHERE `idDrinks` = '$idDrinks'";
       $result = mysqli_query($db, $query);
