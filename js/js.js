@@ -11,3 +11,6 @@ function hide(id){
 function show(id){
     document.getElementById(id).style.display = 'block';
 }
+function hideError(classError){
+    document.getElementByClass(classError).style.display = 'none';
+}

@@ -1,4 +1,5 @@
-<?php $username = mysqli_real_escape_string($db,$_POST['username']);
+<?php 
+   $username = mysqli_real_escape_string($db,$_POST['username']);
    $cocktail = mysqli_real_escape_string($db,$_POST['cocktail']);
    $shot = mysqli_real_escape_string($db,$_POST['shot']);
    $beer = mysqli_real_escape_string($db,$_POST['beer']);
@@ -22,19 +23,18 @@
    if(isset($_POST['addCocktail'])){      
       $query = "SELECT cocktail FROM drinks WHERE username = '$usernameSession' AND date=CURRENT_DATE ";
       $result = mysqli_query($db, $query);
-       $pointsLeft = $row['points'] - ($row['cocktail'] + $row['shot'] + $row['beer'] +$row['wine']);
       if (mysqli_num_rows($result) > 0) 
       {
-         while($row = mysqli_fetch_assoc($result)) 
+       while($row = mysqli_fetch_assoc($result)) 
          {
-            if($pointsLeft > 0){
+            if($points > 0){
                $pointsLeft --;
-               $cocktail = $row['cocktail'] + 1; 
-               $sql = "UPDATE `drinks` SET `cocktail` = '$cocktail' WHERE date=CURRENT_DATE AND username='$usernameSession'"; 
+               $cocktail = $row['cocktail'] + 1;     
+               $sql = "UPDATE `drinks` SET `cocktail` = '$cocktail' WHERE username = '$usernameSession' AND date=CURRENT_DATE ";  
                $result = mysqli_query($db,$sql);
-            }
-            else{
-               $error = "Stop Drinking!";
+               if($pointsLeft < 1){
+                   $error = "Stop Drinking!";
+               }
             }
          }
       }
@@ -62,14 +62,14 @@
       {
          while($row = mysqli_fetch_assoc($result)) 
          {
-            if($pointsLeft > 0){
-            $pointsLeft --;
-            $shot = $row['shot'] + 1;     
-            $sql = "UPDATE `drinks` SET `shot` = '$shot' WHERE username = '$usernameSession' AND date=CURRENT_DATE ";  
-            $result = mysqli_query($db,$sql);
-            }
-            else{
-                $error = "Stop Drinking!";
+            if($points > 0){
+               $pointsLeft --;
+               $shot = $row['shot'] + 1;     
+               $sql = "UPDATE `drinks` SET `shot` = '$shot' WHERE username = '$usernameSession' AND date=CURRENT_DATE ";  
+               $result = mysqli_query($db,$sql);
+               if($pointsLeft < 1){
+                   $error = "Stop Drinking!";
+               }
             }
          }
       }
@@ -97,14 +97,14 @@
       {
          while($row = mysqli_fetch_assoc($result)) 
          {
-            if($pointsLeft > 0){
-            $pointsLeft --;
-            $beer = $row['beer'] + 1;     
-            $sql = "UPDATE `drinks` SET `beer` = '$beer' WHERE username = '$usernameSession' AND date=CURRENT_DATE ";  
-            $result = mysqli_query($db,$sql);
-            }
-            else{
-               $error = "Stop Drinking!";
+            if($points > 0){
+               $pointsLeft --;
+               $beer = $row['beer'] + 1;     
+               $sql = "UPDATE `drinks` SET `beer` = '$beer' WHERE username = '$usernameSession' AND date=CURRENT_DATE ";  
+               $result = mysqli_query($db,$sql);
+               if($pointsLeft < 1){
+                   $error = "Stop Drinking!";
+               }
             }
          }
       }
@@ -132,14 +132,14 @@
       {
          while($row = mysqli_fetch_assoc($result)) 
          {
-            if($pointsLeft > 0){
-            $pointsLeft --;
-            $wine = $row['wine'] + 1;     
-            $sql = "UPDATE `drinks` SET `wine` = '$wine' WHERE username = '$usernameSession' AND date=CURRENT_DATE ";  
-            $result = mysqli_query($db,$sql);
-            }
-            else{
-               $error = "Stop Drinking!";
+            if($points > 0){
+               $pointsLeft --;
+               $wine = $row['wine'] + 1;     
+               $sql = "UPDATE `drinks` SET `wine` = '$wine' WHERE username = '$usernameSession' AND date=CURRENT_DATE ";  
+               $result = mysqli_query($db,$sql);
+               if($pointsLeft < 1){
+                   $error = "Stop Drinking!";
+               }
             }
          }
       }

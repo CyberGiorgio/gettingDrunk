@@ -23,28 +23,34 @@
       <?php 
          $usernameSession = $_SESSION['login_user'];
          $query = "SELECT username FROM user WHERE username = '$usernameSession'";
+         $result = mysqli_stmt_get_result($query);
          $result = mysqli_query($db, $query);
-         if(mysqli_num_rows($result) == 1){ 
+         if(mysqli_num_rows($result) > 0){ 
+            while ($row = $result->fetch_assoc()) {
+            $username = ucfirst($row['username']);
+            }
             echo "<div id='welcome'>
-                     <p>Welcome $usernameSession </p>
-                  </div>" ;?>
-         <div align="center">
-            <div>
-               <button onclick="hide('recordsTable'), show('drinksTables');">Home</button> <button onclick="show('recordsTable'), hide('drinksTables');">Records</button> 
-            </div>
-         </div>
-         <div id="drinksTables">            
-            <table class="container" align="center" >
-                <?php
-                    $query = "SELECT * FROM drinks WHERE date=CURRENT_DATE AND username = '$usernameSession'";
-                    $result = mysqli_query($db, $query);
+                     <p>Welcome $username </p>
+                  </div>" ;
+                  $query = "SELECT * FROM drinks WHERE date=CURRENT_DATE AND username = '$usernameSession'";
+                  $result = mysqli_query($db, $query);
                      if (mysqli_num_rows($result) == 0) 
                         {
                            $query="INSERT INTO `drinks` (`idDrinks`, `cocktail`, `shot`, `beer`, `wine`, `date`, `username`, `points`) VALUES (NULL, '0', '0', '0', '0', CURRENT_DATE, '$usernameSession', '0')";
                            $result = mysqli_query($db, $query);
-                        } else{
-                        while($row = mysqli_fetch_assoc($result)) 
-                        {
+                           $query = "SELECT * FROM drinks WHERE date=CURRENT_DATE AND username = '$usernameSession'";
+                           $result = mysqli_query($db, $query);
+                        } ?>
+         <div align="center">
+            <div>
+               <button onclick="hide('recordsTable'), hide('rulesTable'), show('drinksTable');">Home</button> <button onclick="show('recordsTable'), hide('rulesTable'), hide('drinksTable');">Records</button> <button onclick="hide('recordsTable'), hide('drinksTable'), show('rulesTable')">Rules</button>
+            </div>
+         </div>
+         <div id="drinksTable">            
+            <table class="container" align="center" >
+                <?php
+                     while($row = mysqli_fetch_assoc($result)) 
+                     {
                      ?>
                <form method="post">
                   <div>
@@ -92,12 +98,7 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td>
-                           <div class="item"><input class="item" type="submit" name="endSession" value="End Session"/>
-                           </div>
-                        </td>
-                     </tr>
+                   
                      <tr>
                         <td>
                            <div class="item right">
@@ -110,7 +111,7 @@
                   </div>
                </form>
              <?php 
-            }
+            
          } 
       ?>
             </table>
@@ -123,11 +124,11 @@
            <th><label>Cocktails</label></th>
            <th><label>Shots</label></th>
            <th><label>Beers</label></th>
-           <th><label>Wine</label> </th>
-           <th><label>Points</label> </th>
+           <th><label>Wine</label></th>
+           <th><label>Points</label></th>
         </tr>
          <?php
-          $query = "SELECT * FROM drinks";
+          $query = "SELECT * FROM drinks WHERE username = '$usernameSession'";
           $result = mysqli_query($db, $query);
           if (mysqli_num_rows($result) > 0) 
              {
@@ -155,7 +156,32 @@
             echo "No records yet, start drinking!";
          }
       };?>
-          </table >
+         </table >
+      </div>      
+      <div id="rulesTable"  align="center"  style="display: none;"> 
+         <div><p>Rules</p></div>
+         <table width="20%" class="container" >
+            <tr>
+              <th><label class="text">Drinks</label></th>
+              <th><label class="text">Points</label></th>
+            </tr>
+            <tr>
+              <td><label>Cocktails</label></td>
+              <td><label>2</label></td>
+            </tr>
+            <tr>
+              <td><label>Shots</label></td>
+              <td><label>1</label></td>
+            </tr>
+            <tr>
+               <td><label>Beers</label></td>
+               <td><label>1</label></td>
+            </tr>
+            <tr>
+               <td><label>Wine</label></td>
+               <td><label>2</label></td>
+            </tr>
+         </table >
       </div>      
    </body>
 </html>

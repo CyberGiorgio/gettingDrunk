@@ -13,18 +13,40 @@
    </head>
    
    <body bgcolor = "#FFFFFF" onload="sessionKiller()"> <!-- kill the session every time the page is loaded -->
-      <div id="boxLogin" align="center">
-         <div id="boxBorder">
-            <div id="textLogin">
+      <div class="boxLogin" id="boxLogin" align="center">
+         <div id="boxBorderLogin">
+            <div class="textLogin">
                <p>Login</p>
             </div>
             <div class="formContainer">
                <form method = "post">
-                  <label class="text">Username  :</label><input type = "text" id ="email" name="username" class="box"  size="15" required="" /><br /><br />
-                  <label class="text">Password  :</label><input type = "password" name = "password" class="box" size="15" required="" /><br/><br />
+                  <label class="text">Username  :</label><input type = "text" id ="email" name="username" class="box"  size="15" required="" /><br />
+                  <label class="text">Password  :</label><input type = "password" name = "password" class="box" size="15" required="" /><br/>
                   <input type="submit" name="login" onclick ="sessionStored();" value="Log in"/><br />
+                  <button type="button" onclick="hide('boxLogin'), show('boxRegister');"> Register </button>
                </form>
-               <div id="textError"><?php echo $error; ?></div>
+            <div class="textError"><?php echo $error; ?></div>
+         </div>
+      </div>
+   </div>
+     
+      <div class="boxRegister" id="boxRegister" align="center" style="display: none;">
+         <div id="boxBorderRegister">
+            <div class="textLogin">
+               <p>Register</p>
+            </div>
+            <div class="formContainer">
+               <form method = "post" action="login.php">
+                  <label class="text">Username  :</label><input type = "text" name="username" class="box"  size="15" required="" /><br />
+                   <label class="text">Name  :</label><br><input type = "text" name = "name" class="box" size="15" required="" /><br/>
+                  <label class="text">Surname  :</label><br><input type = "text" name = "surname" class="box" size="15" required="" /><br/>
+                  <label class="text">Password  :</label><input type = "password" name = "password" class="box" size="15" required="" /><br/>
+                  <label class="text">Email  :</label><br><input type = "email" name = "email" class="box" size="15" required="" /><br/>
+                  <input type="submit" name="register" value="Register"/><br />
+                  <button type="button" onclick="hide('boxRegister'), show('boxLogin'), hideError('textError');"> Back to Log in </button>
+               </form>
+               <div class="textError"><?php echo $error; ?></div>
+            </div>
          </div>
       </div>
    </body>
